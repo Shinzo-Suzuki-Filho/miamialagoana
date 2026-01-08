@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transporte - Miami Alagoana</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="js/script.js"></script>
+  </head>
+  <body>
+    <header class="bg-animation">
+      <div class="container">
+        <div class="logo">
+          <a
+            href="index.html"
+            style="
+              text-decoration: none;
+              color: inherit;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            "
+          >
+            <span class="logo-icon">🏖️</span>
+            <span class="gradient-text">Miami Alagoana</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div style="margin-bottom: 1rem">
+        <a href="index.html" class="btn btn-primary">⬅ Voltar</a>
+      </div>
+      <section class="highlights">
+        <h2 class="section-title">Transporte</h2>
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title" style="margin-bottom: 1rem">
+              Horários em Tempo Real 🚌
+            </h3>
+            <div class="table-responsive">
+              <table class="bus-schedule">
+                <thead>
+                  <tr>
+                    <th>Linha</th>
+                    <th>Destino</th>
+                    <th>Chegada</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="bus-schedule-body">
+                  <!-- Preenchido via JS -->
+                </tbody>
+              </table>
+            </div>
+            <p
+              style="
+                margin-top: 1rem;
+                font-size: 0.9rem;
+                color: var(--text-muted);
+              "
+            >
+              * Horários estimados baseados no tráfego atual. Atualização
+              automática.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal de Itinerário -->
+    <div id="itinerary-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Itinerário</h3>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div id="itinerary-list"></div>
+          <div
+            id="itinerary-map"
+            style="
+              height: 300px;
+              width: 100%;
+              margin-top: 1rem;
+              border-radius: 10px;
+              z-index: 1;
+            "
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão Voltar ao Topo -->
+    <button id="back-to-top" class="back-to-top" aria-label="Voltar ao topo">⬆️</button>
+
+    <footer>
+      <div class="container">
+        <p class="copyright">
+          © 2026 Miami Alagoana. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

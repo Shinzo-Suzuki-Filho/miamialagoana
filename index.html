@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Shinzo Suzuki - Full Stack Developer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miami Alagoana - Guia Completo de Maceió e Alagoas</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="js/script.js"></script>
+  </head>
+  <body>
+    <header class="bg-animation">
+      <div class="container">
+        <div class="logo">
+          <span class="logo-icon">🏖️</span>
+          <span class="gradient-text">Miami Alagoana</span>
+        </div>
+        <p class="tagline">
+          Seu guia completo para Maceió e todo o estado de Alagoas
+        </p>
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="O que você procura?"
+          />
+          <button class="search-button">Buscar</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Categories Section -->
+      <section class="categories fade-in-up">
+        <div class="category">
+          <div class="category-icon">🏛️</div>
+          <div class="category-name">Pontos Turísticos</div>
+        </div>
+        <div class="category">
+          <div class="category-icon">🏨</div>
+          <div class="category-name">Hotéis</div>
+        </div>
+        <div class="category">
+          <div class="category-icon">🍽️</div>
+          <div class="category-name">Restaurantes</div>
+        </div>
+        <div class="category">
+          <div class="category-icon">🏥</div>
+          <div class="category-name">Saúde</div>
+        </div>
+        <div class="category">
+          <div class="category-icon">🏫</div>
+          <div class="category-name">Educação</div>
+        </div>
+        <div class="category">
+          <div class="category-icon">🚗</div>
+          <div class="category-name">Transporte</div>
+        </div>
+        <div class="category">
+          <div class="category-icon">🎭</div>
+          <div class="category-name">Eventos</div>
+        </div>
+        <div class="category">
+          <div class="category-icon">👮</div>
+          <div class="category-name">Segurança</div>
+        </div>
+        <div class="category" onclick="window.location.href='shoppings.html'">
+          <div class="category-icon">🛍️</div>
+          <div class="category-name">Shoppings</div>
+        </div>
+        <div
+          class="category"
+          onclick="window.location.href='calcadao-maceio.html'"
+        >
+          <div class="category-icon">🚶</div>
+          <div class="category-name">Calçadão de Maceió</div>
+        </div>
+        <div class="category" onclick="window.location.href='bancos.html'">
+          <div class="category-icon">🏦</div>
+          <div class="category-name">Bancos e Financeiras</div>
+        </div>
+        <div
+          class="category"
+          onclick="window.location.href='locadoras-veiculos.html'"
+        >
+          <div class="category-icon">🚗</div>
+          <div class="category-name">Locadoras de Veículos</div>
+        </div>
+        <div
+          class="category"
+          onclick="window.location.href='concessionarias-veiculos.html'"
+        >
+          <div class="category-icon">🚘</div>
+          <div class="category-name">Concessionárias de Veículos</div>
+        </div>
+        <div
+          class="category"
+          onclick="window.location.href='concessionarias-motos.html'"
+        >
+          <div class="category-icon">🏍️</div>
+          <div class="category-name">Concessionárias de Motos</div>
+        </div>
+        <div
+          class="category"
+          onclick="window.location.href='locacao-pesados.html'"
+        >
+          <div class="category-icon">🚜</div>
+          <div class="category-name">Locação de Pesados</div>
+        </div>
+        <div class="category" onclick="window.location.href='padarias.html'">
+          <div class="category-icon">🥖</div>
+          <div class="category-name">Padarias</div>
+        </div>
+        <div
+          class="category"
+          onclick="window.location.href='supermercados.html'"
+        >
+          <div class="category-icon">🛒</div>
+          <div class="category-name">Supermercados</div>
+        </div>
+        <div class="category" onclick="window.location.href='atacado.html'">
+          <div class="category-icon">📦</div>
+          <div class="category-name">Atacadão</div>
+        </div>
+        <div
+          class="category"
+          onclick="window.location.href='floriculturas.html'"
+        >
+          <div class="category-icon">🌻</div>
+          <div class="category-name">Floricultura</div>
+        </div>
+      </section>
+
+      <!-- Highlights Section -->
+      <section class="highlights">
+        <h2 class="section-title">Destinos Imperdíveis</h2>
+        <div class="highlight-grid">
+          <div class="highlight-card" data-lat="-9.665" data-lng="-35.715">
+            <div class="highlight-image">🌊 Praia de Pajuçara</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Praia de Pajuçara</h3>
+              <p class="highlight-location">Maceió, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.661" data-lng="-35.704">
+            <div class="highlight-image">🏝️ Ponta Verde</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Ponta Verde</h3>
+              <p class="highlight-location">Maceió, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.668" data-lng="-35.736">
+            <div class="highlight-image">🏛️ Museu da Imagem</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Museu da Imagem</h3>
+              <p class="highlight-location">Maceió, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.652" data-lng="-35.704">
+            <div class="highlight-image">🌊 Praia de Jatiúca</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Praia de Jatiúca</h3>
+              <p class="highlight-location">Maceió, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.563" data-lng="-35.643">
+            <div class="highlight-image">🧜‍♀️ Praia da Sereia</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Praia da Sereia</h3>
+              <p class="highlight-location">Maceió, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.585" data-lng="-35.660">
+            <div class="highlight-image">🌴 Praia de Guaxuma</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Praia de Guaxuma</h3>
+              <p class="highlight-location">Maceió, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.856" data-lng="-35.905">
+            <div class="highlight-image">🥥 Praia do Gunga</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Praia do Gunga</h3>
+              <p class="highlight-location">Roteiro, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.773" data-lng="-35.837">
+            <div class="highlight-image">🇫🇷 Praia do Francês</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Praia do Francês</h3>
+              <p class="highlight-location">Marechal Deodoro, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <div class="highlight-card" data-lat="-9.840" data-lng="-35.903">
+            <div class="highlight-image">🚤 Barra de São Miguel</div>
+            <div class="highlight-content">
+              <h3 class="highlight-title">Barra de São Miguel</h3>
+              <p class="highlight-location">Barra de São Miguel, AL</p>
+              <div class="highlight-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section class="testimonials">
+        <h2 class="section-title">O que dizem nossos visitantes</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">👤</div>
+              <div class="testimonial-info">
+                <h3 class="testimonial-name">Maria Silva</h3>
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              "Amei as dicas! A Praia de Pajuçara é realmente incrível. O guia
+              me ajudou muito a planejar minha viagem."
+            </p>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">👤</div>
+              <div class="testimonial-info">
+                <h3 class="testimonial-name">João Souza</h3>
+                <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              "O melhor guia de Alagoas. Encontrei ótimos restaurantes e hotéis
+              com preços acessíveis."
+            </p>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">👤</div>
+              <div class="testimonial-info">
+                <h3 class="testimonial-name">Ana Costa</h3>
+                <div class="testimonial-rating">⭐⭐⭐⭐</div>
+              </div>
+            </div>
+            <p class="testimonial-text">
+              "Muito útil! As informações sobre transporte me salvaram.
+              Recomendo a todos que vão visitar Maceió."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section class="services">
+        <h2 class="section-title">Serviços Essenciais</h2>
+        <div class="service-grid">
+          <div class="service-card">
+            <div class="service-icon">🏥</div>
+            <h3 class="service-title">Hospitais</h3>
+            <p class="service-description">
+              Encontre os melhores hospitais e clínicas da região
+            </p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🚗</div>
+            <h3 class="service-title">Transporte</h3>
+            <p class="service-description">
+              Ônibus, táxis, aplicativos e terminal rodoviário
+            </p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">👮</div>
+            <h3 class="service-title">Segurança</h3>
+            <p class="service-description">
+              Postos policiais, delegacias e emergências
+            </p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">💊</div>
+            <h3 class="service-title">Farmácias</h3>
+            <p class="service-description">
+              24h, delivery e unidades de saúde próximas
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Map Section -->
+      <section class="map-section">
+        <h2 class="section-title">Mapa Interativo</h2>
+        <div id="map"></div>
+      </section>
+
+      <!-- Events Section -->
+      <section class="events">
+        <h2 class="section-title">Eventos em Destaque</h2>
+        <div class="event-list">
+          <div class="event-card">
+            <div class="event-date">25<br />Jan</div>
+            <div class="event-details">
+              <h3 class="event-title">Festival de Verão</h3>
+              <p class="event-location">Praia de Pajuçara, Maceió</p>
+            </div>
+          </div>
+          <div class="event-card">
+            <div class="event-date">28<br />Jan</div>
+            <div class="event-details">
+              <h3 class="event-title">Feira de Artesanato</h3>
+              <p class="event-location">Centro Histórico, Maceió</p>
+            </div>
+          </div>
+          <div class="event-card">
+            <div class="event-date">02<br />Fev</div>
+            <div class="event-details">
+              <h3 class="event-title">Show de Forró</h3>
+              <p class="event-location">Bulgaville, Maceió</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transportation Section -->
+      <section class="transportation">
+        <h2 class="section-title">Transporte Público</h2>
+        <div class="transport-options">
+          <div class="transport-option">
+            <div class="transport-icon">🚌</div>
+            <div class="transport-name">Ônibus</div>
+            <p class="transport-description">
+              Linhas urbanas e intermunicipais
+            </p>
+          </div>
+          <div class="transport-option">
+            <div class="transport-icon">🚕</div>
+            <div class="transport-name">Táxi</div>
+            <p class="transport-description">
+              Táxis convencionais e aplicativos
+            </p>
+          </div>
+          <div class="transport-option">
+            <div class="transport-icon">📍</div>
+            <div class="transport-name">Terminal Rodoviário</div>
+            <p class="transport-description">Rodoviária de Maceió</p>
+          </div>
+          <div class="transport-option">
+            <div class="transport-icon">✈️</div>
+            <div class="transport-name">Aeroporto</div>
+            <p class="transport-description">Zumbi dos Palmares - Maceió</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Safety Section -->
+      <section class="safety">
+        <h2 class="section-title">Emergência e Segurança</h2>
+        <div class="safety-grid">
+          <div class="safety-card">
+            <div class="safety-icon">🚨</div>
+            <h3 class="safety-title">Polícia Militar</h3>
+            <p class="safety-contact">190</p>
+          </div>
+          <div class="safety-card">
+            <div class="safety-icon">🚑</div>
+            <h3 class="safety-title">SAMU</h3>
+            <p class="safety-contact">192</p>
+          </div>
+          <div class="safety-card">
+            <div class="safety-icon">🚒</div>
+            <h3 class="safety-title">Bombeiros</h3>
+            <p class="safety-contact">193</p>
+          </div>
+          <div class="safety-card">
+            <div class="safety-icon">🏛️</div>
+            <h3 class="safety-title">Delegacias</h3>
+            <p class="safety-contact">Consulte no mapa</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Download Section -->
+      <section class="download-section">
+        <h2 class="section-title">Baixe o Aplicativo</h2>
+        <div class="download-buttons">
+          <a href="#" class="download-btn play-store">
+            <span>📱</span>
+            <span>Google Play</span>
+          </a>
+          <a href="#" class="download-btn app-store">
+            <span>📱</span>
+            <span>App Store</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-links">
+          <a href="sobre.html">Sobre</a>
+          <a href="contato.html">Contato</a>
+          <a href="termos-uso.html">Termos de Uso</a>
+          <a href="privacidade.html">Privacidade</a>
+        </div>
+        <p class="copyright">
+          © 2026 Miami Alagoana. Todos os direitos reservados.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Cookie Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+      <div class="container cookie-content">
+        <p>
+          Utilizamos cookies para melhorar sua experiência. Ao continuar
+          navegando, você concorda com nossa
+          <a href="privacidade.html">Política de Privacidade</a>.
+        </p>
+        <button id="accept-cookies" class="btn btn-primary">Aceitar</button>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.querySelector(".search-input");
+        const searchButton = document.querySelector(".search-button");
+
+        if (searchInput && searchButton) {
+          function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            if (!query) {
+              alert("Por favor, digite o que você procura.");
+              return;
+            }
+
+            const pages = {
+              pajuçara: "praia-pajucara.html",
+              "ponta verde": "ponta-verde.html",
+              jatiúca: "praia-jatiuca.html",
+              gunga: "praia-gunga.html",
+              francês: "praia-frances.html",
+              sereia: "praia-sereia.html",
+              guaxuma: "praia-guaxuma.html",
+              barra: "barra-sao-miguel.html",
+              "são miguel": "barra-sao-miguel.html",
+              museu: "museu-imagem.html",
+              hotel: "hoteis.html",
+              hotéis: "hoteis.html",
+              restaurante: "restaurantes.html",
+              saúde: "saude.html",
+              hospital: "hospitais.html",
+              farmácia: "farmacias.html",
+              transporte: "transporte.html",
+              ônibus: "transporte.html",
+              segurança: "seguranca.html",
+              polícia: "seguranca.html",
+              educação: "educacao.html",
+              escola: "educacao.html",
+              evento: "eventos.html",
+              contato: "contato.html",
+              shopping: "shoppings.html",
+              calçadão: "calcadao-maceio.html",
+              calcadao: "calcadao-maceio.html",
+              banco: "bancos.html",
+              financeira: "bancos.html",
+              locadora: "locadoras-veiculos.html",
+              aluguel: "locadoras-veiculos.html",
+              concessionária: "concessionarias-veiculos.html",
+              carro: "concessionarias-veiculos.html",
+              moto: "concessionarias-motos.html",
+              motocicleta: "concessionarias-motos.html",
+              caminhão: "locacao-pesados.html",
+              trator: "locacao-pesados.html",
+              padaria: "padarias.html",
+              pão: "padarias.html",
+              supermercado: "supermercados.html",
+              mercado: "supermercados.html",
+              atacado: "atacado.html",
+              flor: "floriculturas.html",
+            };
+
+            // Redirecionamento direto
+            for (const key in pages) {
+              if (query.includes(key)) {
+                window.location.href = pages[key];
+                return;
+              }
+            }
+
+            // Scroll para seções específicas na home se for termo genérico
+            if (query.includes("praia") || query.includes("turismo")) {
+              const highlights = document.querySelector(".highlights");
+              if (highlights) {
+                highlights.scrollIntoView({ behavior: "smooth" });
+              }
+              return;
+            }
+
+            alert("Desculpe, não encontramos resultados para: " + query);
+          }
+
+          searchButton.addEventListener("click", performSearch);
+
+          searchInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+              performSearch();
+            }
+          });
+        }
+      });
+
+      // Lógica do Mapa e Rotas
+      document.addEventListener("DOMContentLoaded", function () {
+        var mapContainer = document.getElementById("map");
+        if (!mapContainer) return;
+
+        var map;
+        // Verifica se o mapa já foi inicializado (por js/script.js), caso contrário inicializa
+        if (mapContainer._leaflet_id && window.map) {
+          map = window.map;
+        } else if (!mapContainer._leaflet_id) {
+          map = L.map("map").setView([-9.66625, -35.7351], 13); // Maceió
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "© OpenStreetMap contributors",
+          }).addTo(map);
+          window.map = map;
+        } else {
+          // Mapa inicializado mas sem referência global acessível, tenta recuperar ou falha silenciosamente
+          return;
+        }
+
+        var routingControl = null;
+        var destinationMarker = null;
+
+        // Selecionar destino ao clicar no mapa
+        map.on("click", function (e) {
+          if (destinationMarker) {
+            map.removeLayer(destinationMarker);
+          }
+          destinationMarker = L.marker(e.latlng)
+            .addTo(map)
+            .bindPopup("Destino Selecionado")
+            .openPopup();
+        });
+
+        // Marcadores Personalizados dos Destaques
+        const highlights = [
+          { name: "Praia de Pajuçara", lat: -9.665, lng: -35.715, icon: "🌊" },
+          { name: "Ponta Verde", lat: -9.661, lng: -35.704, icon: "🏝️" },
+          { name: "Museu da Imagem", lat: -9.668, lng: -35.736, icon: "🏛️" },
+          { name: "Praia de Jatiúca", lat: -9.652, lng: -35.704, icon: "🌊" },
+          { name: "Praia da Sereia", lat: -9.563, lng: -35.643, icon: "🧜‍♀️" },
+          { name: "Praia de Guaxuma", lat: -9.585, lng: -35.66, icon: "🌴" },
+          { name: "Praia do Gunga", lat: -9.856, lng: -35.905, icon: "🥥" },
+          { name: "Praia do Francês", lat: -9.773, lng: -35.837, icon: "🇫🇷" },
+          { name: "Barra de São Miguel", lat: -9.84, lng: -35.903, icon: "🚤" },
+        ];
+
+        highlights.forEach(function (point) {
+          const customIcon = L.divIcon({
+            html: `<div style="font-size: 2rem; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));">${point.icon}</div>`,
+            className: "custom-div-icon",
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+            popupAnchor: [0, -15],
+          });
+
+          L.marker([point.lat, point.lng], { icon: customIcon })
+            .addTo(map)
+            .bindPopup(`<b>${point.name}</b>`);
+        });
+
+        // Interação ao clicar nos cards de destaque
+        document.querySelectorAll(".highlight-card").forEach((card) => {
+          card.addEventListener("click", function () {
+            // Remove classe ativa de todos os cards
+            document
+              .querySelectorAll(".highlight-card")
+              .forEach((c) => c.classList.remove("active-card"));
+            // Adiciona classe ativa ao card clicado
+            this.classList.add("active-card");
+
+            const lat = this.getAttribute("data-lat");
+            const lng = this.getAttribute("data-lng");
+
+            if (lat && lng && map) {
+              map.flyTo([lat, lng], 15);
+              document
+                .getElementById("map")
+                .scrollIntoView({ behavior: "smooth" });
+            }
+          });
+        });
+
+        // Lógica do Banner de Cookies
+        const cookieBanner = document.getElementById("cookie-banner");
+        const acceptButton = document.getElementById("accept-cookies");
+
+        // Verifica se já foi aceito
+        if (!localStorage.getItem("cookieConsent")) {
+          setTimeout(() => {
+            cookieBanner.classList.add("show");
+          }, 1000);
+        }
+
+        if (acceptButton) {
+          acceptButton.addEventListener("click", function () {
+            localStorage.setItem("cookieConsent", "true");
+            cookieBanner.classList.remove("show");
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
