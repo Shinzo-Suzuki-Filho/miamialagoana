@@ -345,6 +345,38 @@ header .container {
   z-index: 1;
 }
 
+/* Route Information Section */
+.route-info {
+  background: var(--bg-surface);
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: var(--shadow);
+}
+
+.route-details {
+  background: var(--bg-surface-alt);
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-left: 4px solid var(--primary);
+}
+
+.route-details h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.route-details p {
+  margin: 0.5rem 0;
+  color: var(--text-body);
+}
+
+.route-details strong {
+  color: var(--text-body);
+  font-weight: bold;
+}
+
 /* Marcadores do Mapa Interativo */
 .map-pin {
   position: absolute;
@@ -3096,4 +3128,26 @@ textarea.form-control {
   .cookie-content button {
     width: 100%;
   }
+}
+
+/* Remover efeitos ao passar o mouse em links */
+a:hover,
+a:focus,
+a:active {
+  color: inherit !important;
+  background: transparent !important;
+  text-decoration: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Links que usam classe de botão (se forem <a>) também não terão hover */
+.btn:hover,
+.btn:focus,
+.btn:active {
+  transform: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
 }

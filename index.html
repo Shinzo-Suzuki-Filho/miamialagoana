@@ -20,9 +20,237 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
     />
+    <style>
+      /* Assistente de IA */
+      .ai-assistant {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 999;
+        font-family: inherit;
+      }
+
+      .ai-chat-button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ai-chat-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 123, 255, 0.6);
+      }
+
+      .ai-chat-window {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        animation: slideUp 0.3s ease;
+      }
+
+      .ai-chat-window.active {
+        display: flex;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .ai-chat-header {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        padding: 1rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .ai-chat-close {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 1.5rem;
+      }
+
+      .ai-chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        background: #f9f9f9;
+      }
+
+      .ai-message {
+        margin-bottom: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      .ai-message.user {
+        background: #007bff;
+        color: white;
+        margin-left: 2rem;
+        text-align: right;
+      }
+
+      .ai-message.bot {
+        background: white;
+        color: #333;
+        margin-right: 2rem;
+        border: 1px solid #ddd;
+      }
+
+      .ai-chat-input-container {
+        padding: 0.75rem;
+        border-top: 1px solid #ddd;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .ai-chat-input {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+
+      .ai-send-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .ai-send-btn:hover {
+        background: #0056b3;
+      }
+
+      /* Controles do Mapa */
+      .map-container {
+        display: flex;
+        gap: 15px;
+        align-items: flex-start;
+      }
+
+      .map-controls {
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+        height: fit-content;
+      }
+
+      #map {
+        flex: 1;
+        height: 400px;
+      }
+
+      .map-control-btn {
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .map-control-btn:hover {
+        background: #0056b3;
+      }
+
+      .map-control-btn.active {
+        background: #28a745;
+      }
+
+      .location-indicator {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #007bff;
+        border: 3px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+        }
+        100% {
+          box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+        }
+      }
+
+      .route-info-panel {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        z-index: 100;
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        max-width: 300px;
+        font-size: 0.9rem;
+      }
+
+      .route-info-panel.hidden {
+        display: none;
+      }
+    </style>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/map-advanced.js"></script>
   </head>
   <body>
     <header class="bg-animation">
@@ -65,10 +293,6 @@
           <div class="category-name">Saúde</div>
         </div>
         <div class="category">
-          <div class="category-icon">🏫</div>
-          <div class="category-name">Educação</div>
-        </div>
-        <div class="category">
           <div class="category-icon">🎭</div>
           <div class="category-name">Eventos</div>
         </div>
@@ -107,7 +331,10 @@
           <div class="highlight-card" data-lat="-9.665" data-lng="-35.715">
             <div
               class="highlight-image"
-              style="background: url('img/pajucara.jpg') center/cover no-repeat"
+              style="
+                background: url('src/img/praia-de-pajucara.jpg') center/cover
+                  no-repeat;
+              "
             ></div>
             <div class="highlight-content">
               <h3 class="highlight-title">Praia de Pajuçara</h3>
@@ -119,7 +346,8 @@
             <div
               class="highlight-image"
               style="
-                background: url('img/ponta-verde.jpg') center/cover no-repeat;
+                background: url('src/img/praia-de-ponta-verde.jpg') center/cover
+                  no-repeat;
               "
             ></div>
             <div class="highlight-content">
@@ -132,7 +360,8 @@
             <div
               class="highlight-image"
               style="
-                background: url('img/museu-imagem.jpg') center/cover no-repeat;
+                background: url('src/img/museu-theo-brandao.jpg') center/cover
+                  no-repeat;
               "
             ></div>
             <div class="highlight-content">
@@ -144,7 +373,10 @@
           <div class="highlight-card" data-lat="-9.652" data-lng="-35.704">
             <div
               class="highlight-image"
-              style="background: url('img/jatiuca.jpg') center/cover no-repeat"
+              style="
+                background: url('src/img/praia-da-jatiuca.jpg') center/cover
+                  no-repeat;
+              "
             ></div>
             <div class="highlight-content">
               <h3 class="highlight-title">Praia de Jatiúca</h3>
@@ -152,34 +384,13 @@
               <div class="highlight-rating">⭐⭐⭐⭐⭐</div>
             </div>
           </div>
-          <div class="highlight-card" data-lat="-9.563" data-lng="-35.643">
-            <div
-              class="highlight-image"
-              style="background: url('img/maragogi.jpg') center/cover no-repeat"
-            ></div>
-            <div class="highlight-content">
-              <h3 class="highlight-title">Praia de Maragogi</h3>
-              <p class="highlight-location">Maragogi, AL</p>
-              <div class="highlight-rating">⭐⭐⭐⭐</div>
-            </div>
-          </div>
-          <div class="highlight-card" data-lat="-9.585" data-lng="-35.660">
-            <div
-              class="highlight-image"
-              style="
-                background: url('img/carro-quebrado.jpg') center/cover no-repeat;
-              "
-            ></div>
-            <div class="highlight-content">
-              <h3 class="highlight-title">Praia de Carro Quebrado</h3>
-              <p class="highlight-location">Maceió, AL</p>
-              <div class="highlight-rating">⭐⭐⭐⭐</div>
-            </div>
-          </div>
           <div class="highlight-card" data-lat="-9.856" data-lng="-35.905">
             <div
               class="highlight-image"
-              style="background: url('img/gunga.jpg') center/cover no-repeat"
+              style="
+                background: url('src/img/praia-do-gunga.jpg') center/cover
+                  no-repeat;
+              "
             ></div>
             <div class="highlight-content">
               <h3 class="highlight-title">Praia do Gunga</h3>
@@ -190,7 +401,10 @@
           <div class="highlight-card" data-lat="-9.773" data-lng="-35.837">
             <div
               class="highlight-image"
-              style="background: url('img/frances.jpg') center/cover no-repeat"
+              style="
+                background: url('src/img/praia-do-frances.jpg') center/cover
+                  no-repeat;
+              "
             ></div>
             <div class="highlight-content">
               <h3 class="highlight-title">Praia do Francês</h3>
@@ -202,8 +416,8 @@
             <div
               class="highlight-image"
               style="
-                background: url('img/barra-sao-miguel.jpg') center/cover
-                  no-repeat;
+                background: url('src/img/praia-de-barra-de-sao-miguel.jpg')
+                  center/cover no-repeat;
               "
             ></div>
             <div class="highlight-content">
@@ -263,9 +477,56 @@
 
       <!-- Map Section -->
       <section class="map-section">
-        <h2 class="section-title">Mapa Interativo</h2>
-        <div id="map"></div>
+        <h2 class="section-title">Mapa Interativo em Tempo Real</h2>
+        <div class="map-container">
+          <div class="map-controls">
+            <button
+              id="traffic-btn"
+              class="map-control-btn"
+              title="Ativar Tráfico"
+            >
+              🚗
+            </button>
+            <button id="route-btn" class="map-control-btn" title="Traçar Rota">
+              🛣️
+            </button>
+            <button
+              id="places-btn"
+              class="map-control-btn"
+              title="Lugares Próximos"
+            >
+              🏪
+            </button>
+          </div>
+          <div id="map"></div>
+        </div>
+        <div id="route-info" class="route-info-panel hidden">
+          <div id="route-details"></div>
+        </div>
       </section>
+
+      <!-- Assistente de IA -->
+      <div class="ai-assistant">
+        <button id="ai-chat-btn" class="ai-chat-button" title="Assistente IA">
+          🤖
+        </button>
+        <div id="ai-chat-window" class="ai-chat-window">
+          <div class="ai-chat-header">
+            <span>Assistente Maceió 🤖</span>
+            <button id="ai-close-btn" class="ai-chat-close">&times;</button>
+          </div>
+          <div id="ai-messages" class="ai-chat-messages"></div>
+          <div class="ai-chat-input-container">
+            <input
+              id="ai-input"
+              type="text"
+              class="ai-chat-input"
+              placeholder="Faça uma pergunta..."
+            />
+            <button id="ai-send-btn" class="ai-send-btn">Enviar</button>
+          </div>
+        </div>
+      </div>
 
       <!-- Events Section -->
       <section class="events">
@@ -274,64 +535,6 @@
           <p style="text-align: center; color: var(--text-muted)">
             Nenhum evento em destaque no momento.
           </p>
-        </div>
-      </section>
-
-      <!-- Transportation Section -->
-      <section class="transportation">
-        <h2 class="section-title">Transporte Público</h2>
-        <div class="transport-options">
-          <div class="transport-option">
-            <div class="transport-icon">🚌</div>
-            <div class="transport-name">Ônibus</div>
-            <p class="transport-description">
-              Linhas urbanas e intermunicipais
-            </p>
-          </div>
-          <div class="transport-option">
-            <div class="transport-icon">🚕</div>
-            <div class="transport-name">Táxi</div>
-            <p class="transport-description">
-              Táxis convencionais e aplicativos
-            </p>
-          </div>
-          <div class="transport-option">
-            <div class="transport-icon">📍</div>
-            <div class="transport-name">Terminal Rodoviário</div>
-            <p class="transport-description">Rodoviária de Maceió</p>
-          </div>
-          <div class="transport-option">
-            <div class="transport-icon">✈️</div>
-            <div class="transport-name">Aeroporto</div>
-            <p class="transport-description">Zumbi dos Palmares - Maceió</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Safety Section -->
-      <section class="safety">
-        <h2 class="section-title">Emergência e Segurança</h2>
-        <div class="safety-grid">
-          <div class="safety-card">
-            <div class="safety-icon">🚨</div>
-            <h3 class="safety-title">Polícia Militar</h3>
-            <p class="safety-contact">190</p>
-          </div>
-          <div class="safety-card">
-            <div class="safety-icon">🚑</div>
-            <h3 class="safety-title">SAMU</h3>
-            <p class="safety-contact">192</p>
-          </div>
-          <div class="safety-card">
-            <div class="safety-icon">🚒</div>
-            <h3 class="safety-title">Bombeiros</h3>
-            <p class="safety-contact">193</p>
-          </div>
-          <div class="safety-card">
-            <div class="safety-icon">🏛️</div>
-            <h3 class="safety-title">Delegacias</h3>
-            <p class="safety-contact">Consulte no mapa</p>
-          </div>
         </div>
       </section>
 
@@ -354,8 +557,6 @@
     <footer>
       <div class="container">
         <div class="footer-links">
-          <a href="sobre.html">Sobre</a>
-          <a href="contato.html">Contato</a>
           <a href="termos-uso.html">Termos de Uso</a>
           <a href="privacidade.html">Privacidade</a>
         </div>
@@ -396,44 +597,18 @@
               jatiúca: "praia-jatiuca.html",
               gunga: "praia-gunga.html",
               francês: "praia-frances.html",
-              sereia: "praia-sereia.html",
-              guaxuma: "praia-guaxuma.html",
               barra: "barra-sao-miguel.html",
               "são miguel": "barra-sao-miguel.html",
               museu: "museu-imagem.html",
-              hotel: "hoteis.html",
               hotéis: "hoteis.html",
               restaurante: "restaurantes.html",
               saúde: "saude.html",
-              hospital: "hospitais.html",
-              farmácia: "farmacias.html",
-              transporte: "transporte.html",
-              ônibus: "transporte.html",
               segurança: "seguranca.html",
-              polícia: "seguranca.html",
-              educação: "educacao.html",
-              escola: "educacao.html",
               evento: "eventos.html",
-              contato: "contato.html",
               shopping: "shoppings.html",
-              calçadão: "calcadao-maceio.html",
               calcadao: "calcadao-maceio.html",
               banco: "bancos.html",
-              financeira: "bancos.html",
-              locadora: "locadoras-veiculos.html",
-              aluguel: "locadoras-veiculos.html",
-              concessionária: "concessionarias-veiculos.html",
-              carro: "concessionarias-veiculos.html",
-              moto: "concessionarias-motos.html",
-              motocicleta: "concessionarias-motos.html",
-              caminhão: "locacao-pesados.html",
-              trator: "locacao-pesados.html",
-              padaria: "padarias.html",
-              pão: "padarias.html",
               supermercado: "supermercados.html",
-              mercado: "supermercados.html",
-              atacado: "atacado.html",
-              flor: "floriculturas.html",
             };
 
             // Redirecionamento direto
@@ -506,8 +681,6 @@
           { name: "Ponta Verde", lat: -9.661, lng: -35.704, icon: "🏝️" },
           { name: "Museu da Imagem", lat: -9.668, lng: -35.736, icon: "🏛️" },
           { name: "Praia de Jatiúca", lat: -9.652, lng: -35.704, icon: "🌊" },
-          { name: "Praia da Sereia", lat: -9.563, lng: -35.643, icon: "🧜‍♀️" },
-          { name: "Praia de Guaxuma", lat: -9.585, lng: -35.66, icon: "🌴" },
           { name: "Praia do Gunga", lat: -9.856, lng: -35.905, icon: "🥥" },
           { name: "Praia do Francês", lat: -9.773, lng: -35.837, icon: "🇫🇷" },
           { name: "Barra de São Miguel", lat: -9.84, lng: -35.903, icon: "🚤" },

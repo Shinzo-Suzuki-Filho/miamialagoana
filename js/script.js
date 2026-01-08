@@ -101,8 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
     { title: "Ponta Verde", location: "Maceió, AL", rating: 5 },
     { title: "Museu da Imagem", location: "Maceió, AL", rating: 4 },
     { title: "Praia de Jatiúca", location: "Maceió, AL", rating: 5 },
-    { title: "Praia da Sereia", location: "Maceió, AL", rating: 4 },
-    { title: "Praia de Guaxuma", location: "Maceió, AL", rating: 4 },
     { title: "Praia do Gunga", location: "Roteiro, AL", rating: 5 },
     { title: "Praia do Francês", location: "Marechal Deodoro, AL", rating: 5 },
     {
@@ -143,8 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "Ponta Verde": "ponta-verde.html",
         "Museu da Imagem": "museu-imagem.html",
         "Praia de Jatiúca": "praia-jatiuca.html",
-        "Praia da Sereia": "praia-sereia.html",
-        "Praia de Guaxuma": "praia-guaxuma.html",
         "Praia do Gunga": "praia-gunga.html",
         "Praia do Francês": "praia-frances.html",
         "Barra de São Miguel": "barra-sao-miguel.html",
