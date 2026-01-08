@@ -359,6 +359,15 @@ function generateAIResponse(message) {
 
 // ========== FUNÇÃO: INICIALIZAR ASSISTENTE DE IA ==========
 function initAIAssistant() {
+  // Marcar como inicializado imediatamente para prevenir inicializações múltiplas
+  if (window._aiAssistantInitialized) {
+    console.log("🤖 Assistente de IA já inicializado, pulando initAIAssistant");
+    return;
+  }
+  window._aiAssistantInitialized = true;
+
+  console.log("🤖 Inicializando assistente de IA...");
+
   const chatBtn = document.getElementById("ai-chat-btn");
   const closeBtn = document.getElementById("ai-close-btn");
   const sendBtn = document.getElementById("ai-send-btn");
@@ -366,29 +375,59 @@ function initAIAssistant() {
   const chatWindow = document.getElementById("ai-chat-window");
   const messagesDiv = document.getElementById("ai-messages");
 
+  console.log("🤖 Elementos encontrados:", {
+    chatBtn: !!chatBtn,
+    closeBtn: !!closeBtn,
+    sendBtn: !!sendBtn,
+    input: !!input,
+    chatWindow: !!chatWindow,
+    messagesDiv: !!messagesDiv,
+  });
+
   if (!input || !messagesDiv) {
-    console.warn("Elementos do assistente de IA não encontrados");
+    console.warn("❌ Elementos essenciais do assistente de IA não encontrados");
     return;
   }
 
+  // Remover listeners existentes para evitar duplicação
   if (chatBtn) {
-    chatBtn.addEventListener("click", () => {
+    chatBtn.removeEventListener("click", chatBtn._aiClickHandler);
+    chatBtn._aiClickHandler = () => {
+      // Debounce para prevenir cliques rápidos
+      if (chatBtn._aiClickDebounce) return;
+      chatBtn._aiClickDebounce = true;
+      setTimeout(() => (chatBtn._aiClickDebounce = false), 300);
+
+      console.log("🤖 Botão de chat clicado!");
       chatWindow.classList.toggle("active");
+      console.log(
+        "🤖 Classe 'active' no chat window:",
+        chatWindow.classList.contains("active")
+      );
       if (chatWindow.classList.contains("active")) {
         input.focus();
       }
-    });
+    };
+    chatBtn.addEventListener("click", chatBtn._aiClickHandler);
+    console.log("🤖 Event listener adicionado ao botão de chat");
+  } else {
+    console.warn("❌ Botão de chat não encontrado");
   }
 
   if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
+    closeBtn.removeEventListener("click", closeBtn._aiCloseHandler);
+    closeBtn._aiCloseHandler = () => {
+      console.log("🤖 Botão de fechar clicado");
       chatWindow.classList.remove("active");
-    });
+    };
+    closeBtn.addEventListener("click", closeBtn._aiCloseHandler);
   }
 
   const sendMsg = () => {
     const msg = input.value.trim();
     if (!msg) return;
+
+    console.log("🤖 Enviando mensagem:", msg);
 
     const userMsg = document.createElement("div");
     userMsg.className = "ai-message user";
@@ -402,12 +441,23 @@ function initAIAssistant() {
       botMsg.textContent = generateAIResponse(msg);
       messagesDiv.appendChild(botMsg);
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      console.log("🤖 Resposta do bot enviada");
     }, 500);
   };
 
-  if (sendBtn) sendBtn.addEventListener("click", sendMsg);
-  if (input)
-    input.addEventListener("keypress", (e) => e.key === "Enter" && sendMsg());
+  if (sendBtn) {
+    sendBtn.removeEventListener("click", sendBtn._aiSendHandler);
+    sendBtn._aiSendHandler = sendMsg;
+    sendBtn.addEventListener("click", sendBtn._aiSendHandler);
+  }
+
+  if (input) {
+    input.removeEventListener("keypress", input._aiKeyHandler);
+    input._aiKeyHandler = (e) => e.key === "Enter" && sendMsg();
+    input.addEventListener("keypress", input._aiKeyHandler);
+  }
+
+  console.log("✅ Assistente de IA inicializado com sucesso");
 }
 
 // ========== ESTILOS DE ANIMAÇÃO ==========
@@ -686,16 +736,176 @@ function waitForLeaflet() {
   }
 }
 
+// ========== INICIALIZAR ASSISTENTE DE IA INDEPENDENTEMENTE ==========
+function initAIAssistantStandalone() {
+  // Marcar como inicializado imediatamente para prevenir inicializações múltiplas
+  if (window._aiAssistantInitialized) {
+    console.log("🤖 Assistente standalone já inicializado, pulando");
+    return;
+  }
+  window._aiAssistantInitialized = true;
+
+  console.log("🤖 Inicializando assistente de IA (modo standalone)...");
+
+  // Função para inicializar quando DOM estiver pronto
+  const initialize = () => {
+    console.log("🤖 Tentando inicializar elementos do assistente...");
+
+    const chatBtn = document.getElementById("ai-chat-btn");
+    const closeBtn = document.getElementById("ai-close-btn");
+    const sendBtn = document.getElementById("ai-send-btn");
+    const input = document.getElementById("ai-input");
+    const chatWindow = document.getElementById("ai-chat-window");
+    const messagesDiv = document.getElementById("ai-messages");
+
+    console.log("🤖 Elementos encontrados (standalone):", {
+      chatBtn: !!chatBtn,
+      closeBtn: !!closeBtn,
+      sendBtn: !!sendBtn,
+      input: !!input,
+      chatWindow: !!chatWindow,
+      messagesDiv: !!messagesDiv,
+    });
+
+    // Log detalhado dos elementos
+    console.log("🤖 Detalhes dos elementos:");
+    console.log("  - chatBtn:", chatBtn);
+    console.log("  - closeBtn:", closeBtn);
+    console.log("  - sendBtn:", sendBtn);
+    console.log("  - input:", input);
+    console.log("  - chatWindow:", chatWindow);
+    console.log("  - messagesDiv:", messagesDiv);
+
+    if (!input || !messagesDiv) {
+      console.error(
+        "❌ Elementos essenciais do assistente de IA não encontrados (standalone)"
+      );
+      console.error("   - input encontrado:", !!input);
+      console.error("   - messagesDiv encontrado:", !!messagesDiv);
+      return false;
+    }
+
+    if (!chatBtn) {
+      console.error("❌ Botão de chat não encontrado! ID: ai-chat-btn");
+      return false;
+    }
+
+    if (!chatWindow) {
+      console.error("❌ Janela de chat não encontrada! ID: ai-chat-window");
+      return false;
+    }
+
+    // Remover listeners existentes para evitar duplicação
+    if (chatBtn) {
+      chatBtn.removeEventListener("click", chatBtn._aiClickHandler);
+      chatBtn._aiClickHandler = () => {
+        // Debounce para prevenir cliques rápidos
+        if (chatBtn._aiClickDebounce) return;
+        chatBtn._aiClickDebounce = true;
+        setTimeout(() => (chatBtn._aiClickDebounce = false), 300);
+
+        console.log("🤖 Botão de chat clicado! (standalone)");
+        console.log(
+          "🤖 Chat window antes:",
+          chatWindow.className,
+          chatWindow.style.display
+        );
+        chatWindow.classList.toggle("active");
+        console.log(
+          "🤖 Chat window depois:",
+          chatWindow.className,
+          chatWindow.style.display
+        );
+        console.log(
+          "🤖 Classe 'active' aplicada:",
+          chatWindow.classList.contains("active")
+        );
+        if (chatWindow.classList.contains("active")) {
+          input.focus();
+          console.log("🤖 Input focado");
+        }
+      };
+      chatBtn.addEventListener("click", chatBtn._aiClickHandler);
+      console.log("🤖 Event listener adicionado ao botão de chat");
+    } else {
+      console.warn("❌ Botão de chat não encontrado para adicionar listener");
+    }
+
+    if (closeBtn) {
+      closeBtn.removeEventListener("click", closeBtn._aiCloseHandler);
+      closeBtn._aiCloseHandler = () => {
+        console.log("🤖 Botão de fechar clicado (standalone)");
+        chatWindow.classList.remove("active");
+      };
+      closeBtn.addEventListener("click", closeBtn._aiCloseHandler);
+    }
+
+    const sendMsg = () => {
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      console.log("🤖 Enviando mensagem (standalone):", msg);
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "ai-message user";
+      userMsg.textContent = msg;
+      messagesDiv.appendChild(userMsg);
+      input.value = "";
+
+      setTimeout(() => {
+        console.log("🤖 Gerando resposta para:", msg);
+        const response = generateAIResponse(msg);
+        console.log("🤖 Resposta gerada:", response);
+        const botMsg = document.createElement("div");
+        botMsg.className = "ai-message bot";
+        botMsg.textContent = response;
+        messagesDiv.appendChild(botMsg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        console.log("🤖 Resposta do bot enviada (standalone)");
+      }, 500);
+    };
+
+    if (sendBtn) {
+      sendBtn.removeEventListener("click", sendBtn._aiSendHandler);
+      sendBtn._aiSendHandler = sendMsg;
+      sendBtn.addEventListener("click", sendBtn._aiSendHandler);
+    }
+
+    if (input) {
+      input.removeEventListener("keypress", input._aiKeyHandler);
+      input._aiKeyHandler = (e) => e.key === "Enter" && sendMsg();
+      input.addEventListener("keypress", input._aiKeyHandler);
+    }
+
+    console.log("✅ Assistente de IA inicializado com sucesso (standalone)");
+    window._aiAssistantInitialized = true; // Marcar como inicializado
+    return true;
+  };
+
+  // Tentar inicializar imediatamente
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialize);
+  } else {
+    // DOM já carregado, tentar inicializar
+    if (!initialize()) {
+      // Se falhou, tentar novamente após um delay
+      setTimeout(initialize, 500);
+    }
+  }
+}
+
 // Iniciar quando o documento estiver pronto
 console.log("📜 Script map-advanced.js carregado!");
 if (document.readyState === "loading") {
   console.log("⏳ Documento ainda carregando, aguardando DOMContentLoaded...");
   document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOMContentLoaded disparado!");
+    initAIAssistantStandalone(); // Inicializar assistente primeiro
     waitForLeaflet();
   });
 } else {
   console.log("✅ Documento já carregado, inicializando...");
+  initAIAssistantStandalone(); // Inicializar assistente primeiro
   waitForLeaflet();
 }
 

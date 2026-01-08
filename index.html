@@ -23,6 +23,10 @@
     <style>
       /* Assistente de IA */
       .ai-assistant {
+        position: fixed;
+        bottom: 20px;
+        right: 90px;
+        z-index: 999;
         font-family: inherit;
       }
 
@@ -48,9 +52,9 @@
       }
 
       .ai-chat-window {
-        position: absolute;
-        bottom: 80px;
-        right: 0;
+        position: fixed;
+        bottom: 100px;
+        right: 90px;
         width: 350px;
         height: 500px;
         background: white;
@@ -245,16 +249,16 @@
 
       /* Floating Buttons */
       .floating-buttons {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 999;
         display: flex;
         gap: 10px;
         align-items: center;
       }
 
       .theme-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
         width: 60px;
         height: 60px;
         border-radius: 50%;
