@@ -23,10 +23,6 @@
     <style>
       /* Assistente de IA */
       .ai-assistant {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 999;
         font-family: inherit;
       }
 
@@ -245,6 +241,38 @@
 
       .route-info-panel.hidden {
         display: none;
+      }
+
+      /* Floating Buttons */
+      .floating-buttons {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .theme-toggle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #333, #555);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
       }
     </style>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -505,27 +533,35 @@
         </div>
       </section>
 
-      <!-- Assistente de IA -->
-      <div class="ai-assistant">
-        <button id="ai-chat-btn" class="ai-chat-button" title="Assistente IA">
-          🤖
-        </button>
-        <div id="ai-chat-window" class="ai-chat-window">
-          <div class="ai-chat-header">
-            <span>Assistente Maceió 🤖</span>
-            <button id="ai-close-btn" class="ai-chat-close">&times;</button>
-          </div>
-          <div id="ai-messages" class="ai-chat-messages"></div>
-          <div class="ai-chat-input-container">
-            <input
-              id="ai-input"
-              type="text"
-              class="ai-chat-input"
-              placeholder="Faça uma pergunta..."
-            />
-            <button id="ai-send-btn" class="ai-send-btn">Enviar</button>
+      <!-- Floating Buttons Container -->
+      <div class="floating-buttons">
+        <!-- Assistente de IA -->
+        <div class="ai-assistant">
+          <button id="ai-chat-btn" class="ai-chat-button" title="Assistente IA">
+            🤖
+          </button>
+          <div id="ai-chat-window" class="ai-chat-window">
+            <div class="ai-chat-header">
+              <span>Assistente Maceió 🤖</span>
+              <button id="ai-close-btn" class="ai-chat-close">&times;</button>
+            </div>
+            <div id="ai-messages" class="ai-chat-messages"></div>
+            <div class="ai-chat-input-container">
+              <input
+                id="ai-input"
+                type="text"
+                class="ai-chat-input"
+                placeholder="Faça uma pergunta..."
+              />
+              <button id="ai-send-btn" class="ai-send-btn">Enviar</button>
+            </div>
           </div>
         </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="theme-toggle" title="Alternar Tema">
+          🌙
+        </button>
       </div>
 
       <!-- Events Section -->
@@ -639,158 +675,28 @@
             }
           });
         }
-      });
 
-      // Lógica do Mapa e Rotas
-      document.addEventListener("DOMContentLoaded", function () {
-        var mapContainer = document.getElementById("map");
-        if (!mapContainer) return;
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById("theme-toggle");
+        const body = document.body;
 
-        var map;
-        // Verifica se o mapa já foi inicializado (por js/script.js), caso contrário inicializa
-        if (mapContainer._leaflet_id && window.map) {
-          map = window.map;
-        } else if (!mapContainer._leaflet_id) {
-          map = L.map("map").setView([-9.66625, -35.7351], 13); // Maceió
-          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution: "© OpenStreetMap contributors",
-          }).addTo(map);
-          window.map = map;
-        } else {
-          // Mapa inicializado mas sem referência global acessível, tenta recuperar ou falha silenciosamente
-          return;
-        }
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem("theme") || "light";
+        body.setAttribute("data-theme", currentTheme);
+        updateThemeIcon(currentTheme);
 
-        var routingControl = null;
-        var destinationMarker = null;
+        themeToggle.addEventListener("click", function () {
+          const currentTheme = body.getAttribute("data-theme");
+          const newTheme = currentTheme === "light" ? "dark" : "light";
 
-        // Selecionar destino ao clicar no mapa
-        map.on("click", function (e) {
-          if (destinationMarker) {
-            map.removeLayer(destinationMarker);
-          }
-          destinationMarker = L.marker(e.latlng)
-            .addTo(map)
-            .bindPopup("Destino Selecionado")
-            .openPopup();
+          body.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+          updateThemeIcon(newTheme);
         });
 
-        // Marcadores Personalizados dos Destaques
-        const highlights = [
-          { name: "Praia de Pajuçara", lat: -9.665, lng: -35.715, icon: "🌊" },
-          { name: "Ponta Verde", lat: -9.661, lng: -35.704, icon: "🏝️" },
-          { name: "Museu da Imagem", lat: -9.668, lng: -35.736, icon: "🏛️" },
-          { name: "Praia de Jatiúca", lat: -9.652, lng: -35.704, icon: "🌊" },
-          { name: "Praia do Gunga", lat: -9.856, lng: -35.905, icon: "🥥" },
-          { name: "Praia do Francês", lat: -9.773, lng: -35.837, icon: "🇫🇷" },
-          { name: "Barra de São Miguel", lat: -9.84, lng: -35.903, icon: "🚤" },
-        ];
-
-        highlights.forEach(function (point) {
-          const customIcon = L.divIcon({
-            html: `<div style="font-size: 2rem; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));">${point.icon}</div>`,
-            className: "custom-div-icon",
-            iconSize: [30, 30],
-            iconAnchor: [15, 15],
-            popupAnchor: [0, -15],
-          });
-
-          L.marker([point.lat, point.lng], { icon: customIcon })
-            .addTo(map)
-            .bindPopup(`<b>${point.name}</b>`);
-        });
-
-        // Interação ao clicar nos cards de destaque
-        document.querySelectorAll(".highlight-card").forEach((card) => {
-          card.addEventListener("click", function () {
-            // Remove classe ativa de todos os cards
-            document
-              .querySelectorAll(".highlight-card")
-              .forEach((c) => c.classList.remove("active-card"));
-            // Adiciona classe ativa ao card clicado
-            this.classList.add("active-card");
-
-            const lat = this.getAttribute("data-lat");
-            const lng = this.getAttribute("data-lng");
-
-            if (lat && lng && map) {
-              map.flyTo([lat, lng], 15);
-              document
-                .getElementById("map")
-                .scrollIntoView({ behavior: "smooth" });
-            }
-          });
-        });
-
-        // Lógica do Banner de Cookies
-        const cookieBanner = document.getElementById("cookie-banner");
-        const acceptButton = document.getElementById("accept-cookies");
-
-        // Verifica se já foi aceito
-        if (!localStorage.getItem("cookieConsent")) {
-          setTimeout(() => {
-            cookieBanner.classList.add("show");
-          }, 1000);
+        function updateThemeIcon(theme) {
+          themeToggle.textContent = theme === "light" ? "🌙" : "☀️";
         }
-
-        if (acceptButton) {
-          acceptButton.addEventListener("click", function () {
-            localStorage.setItem("cookieConsent", "true");
-            cookieBanner.classList.remove("show");
-          });
-        }
-
-        // Verificação automática de imagens quebradas (Fallback)
-        function checkAndReplaceImages() {
-          // 1. Para tags <img> padrão
-          document.querySelectorAll("img").forEach((img) => {
-            img.addEventListener("error", function () {
-              this.src =
-                "https://placehold.co/600x400?text=Imagem+Indisponível";
-            });
-          });
-
-          // 2. Para elementos com background-image (Destaques, Eventos, etc)
-          const bgElements = document.querySelectorAll(
-            ".highlight-image, .event-image, .card-image"
-          );
-
-          bgElements.forEach((el) => {
-            const style =
-              el.style.backgroundImage ||
-              window.getComputedStyle(el).backgroundImage;
-
-            if (style && style !== "none") {
-              const urlMatch = style.match(/url\(['"]?(.*?)['"]?\)/);
-              if (urlMatch && urlMatch[1]) {
-                const img = new Image();
-                const src = urlMatch[1];
-
-                img.onerror = function () {
-                  let text = "Imagem";
-                  // Tenta encontrar um título próximo para usar no placeholder
-                  const parent = el.closest(
-                    ".highlight-card, .event-card, .card"
-                  );
-                  if (parent) {
-                    const title = parent.querySelector(
-                      ".highlight-title, .event-title, h3"
-                    );
-                    if (title) text = title.innerText;
-                  }
-                  el.style.backgroundImage = `url('https://placehold.co/600x400?text=${encodeURIComponent(
-                    text
-                  )}')`;
-                };
-
-                img.src = src;
-              }
-            }
-          });
-        }
-
-        // Executa a verificação
-        checkAndReplaceImages();
       });
     </script>
   </body>

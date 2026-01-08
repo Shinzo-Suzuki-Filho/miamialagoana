@@ -586,7 +586,14 @@ function initializeMap() {
         return false;
       }
 
-      btn.addEventListener("click", callback);
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(`🚗 CLICK NO BOTÃO DE ${name.toUpperCase()}!`);
+        callback();
+        // Liberar foco do botão para evitar bloqueio
+        btn.blur();
+      });
 
       // Testar o listener
       console.log(`✅ Listener adicionado para ${name}. Testando...`);
@@ -599,18 +606,15 @@ function initializeMap() {
       return true;
     }
 
-    addButtonListener(trafficBtn, "tráfico", function (e) {
-      console.log("🚗 CLICK NO BOTÃO DE TRÁFICO!");
+    addButtonListener(trafficBtn, "tráfico", function () {
       toggleTraffic();
     });
 
-    addButtonListener(routeBtn, "rota", function (e) {
-      console.log("🛣️ CLICK NO BOTÃO DE ROTA!");
+    addButtonListener(routeBtn, "rota", function () {
       startRouteMode();
     });
 
-    addButtonListener(placesBtn, "lugares", function (e) {
-      console.log("🏪 CLICK NO BOTÃO DE LUGARES!");
+    addButtonListener(placesBtn, "lugares", function () {
       showNearbyPlaces();
     });
 

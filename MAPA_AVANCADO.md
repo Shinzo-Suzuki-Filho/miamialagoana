@@ -41,7 +41,7 @@
 
 Um chatbot inteligente que responde perguntas sobre:
 
-#### Base de Conhecimento:
+#### Base de Conhecimento
 
 - **Praias**: Informações sobre Pajuçara, Ponta Verde, Jatiúca, Francês e Gunga
 - **Hotéis**: Recomendações do Shopping Pátio, Jatiúca Resort, Salinas do Maragogi
