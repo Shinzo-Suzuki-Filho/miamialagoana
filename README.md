@@ -1,5 +1,4 @@
 # MiamiAlagoana
-# Miami Alagoana
 
 **Explore Maceió e Alagoas com estilo**
 
