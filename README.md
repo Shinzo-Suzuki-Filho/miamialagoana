@@ -98,9 +98,9 @@ Contribuições são bem-vindas! Para sugerir melhorias:
 
 ## 📞 Contato
 
-- Desenvolvedor: [Seu Nome]
-- Email: seu.email@exemplo.com
-- GitHub: [seu-usuario]
+- Desenvolvedor: Shinzo Suzuki
+- Email: contatodevdragon@gmail.com
+- GitHub: https://github.com/Shinzo-Suzuki-Filho
 
 ## 📄 Licença
 
@@ -117,4 +117,4 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 **Miami Alagoana** - Transformando sua experiência em Alagoas em algo inesquecível!
 
 *Versão 1.0.0*  
-*Desenvolvido com ❤️ para Maceió e Alagoas*
+*Desenvolvido com ❤️ para Maceió Alagoas*
