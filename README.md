@@ -2,7 +2,7 @@
 
 **Explore Maceió e Alagoas com estilo**
 
-O aplicativo Miami Alagoana é uma plataforma completa para turistas e moradores explorarem os melhores destinos, serviços e experiências disponíveis em Maceió e todo o estado de Alagoas.
+O Site Miami Alagoana é uma plataforma completa para turistas e moradores explorarem os melhores destinos, serviços e experiências disponíveis em Maceió e todo o estado de Alagoas.
 
 ## 📱 Visão Geral
 
